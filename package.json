@@ -1,7 +1,7 @@
 {
-	"name": "react-library",
+	"name": "@react/create-library",
 	"version": "1.0.0",
-	"description": "CLI tool for setup creating react library",
+	"description": "CLI tools to generate boilerplate to create component based library",
 	"main": "index.js",
 	"bin": {
 		"react-library": "index.js"
