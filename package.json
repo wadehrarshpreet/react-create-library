@@ -1,0 +1,71 @@
+{
+	"name": "react-library",
+	"version": "1.0.0",
+	"description": "CLI tool for setup creating react library",
+	"main": "index.js",
+	"bin": {
+		"react-library": "index.js"
+	},
+	"scripts": {
+		"commit": "git-cz",
+		"release": "standard-version",
+		"release:tags": "git push --follow-tags origin master",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=8",
+		"npm": ">=5"
+	},
+	"keywords": [],
+	"author": "Arshpreet Wadehra <me@wadehrarshpreet.com>",
+	"license": "MIT",
+	"dependencies": {
+		"chalk": "^3.0.0",
+		"clear": "^0.1.0",
+		"clui": "^0.3.6",
+		"commander": "^4.0.1",
+		"conf": "^6.2.0",
+		"figlet": "^1.2.4",
+		"git-config-path": "^2.0.0",
+		"github-username": "^5.0.1",
+		"inquirer": "^7.0.0",
+		"inquirer-autocomplete-prompt": "^1.0.1",
+		"minimist": "^1.2.0",
+		"parse-git-config": "^3.0.0",
+		"validate-npm-package-name": "^3.0.0",
+		"which": "^2.0.2"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^8.2.0",
+		"@commitlint/config-conventional": "^8.2.0",
+		"commitizen": "^4.0.3",
+		"eslint": "^6.7.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"husky": "^3.1.0",
+		"lint-staged": "^9.4.3",
+		"pretty-quick": "^2.0.1",
+		"standard-version": "^7.0.1"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+			"pre-commit": "lint-staged && git add ."
+		}
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	},
+	"lint-staged": {
+		"{bin}/**/*.{js,json} *.js": [
+			"pretty-quick --staged",
+			"eslint --fix --quiet --ignore-path .gitignore",
+			"git add"
+		]
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"extends": "standard",
+	"rules": {
+		"semi": ["error", "always"],
+		"camelcase": "off",
+		"comma-dangle": "off",
+		"no-tabs": 0,
+		"indent": [2, "tab", { "SwitchCase": 1 }],
+		"prefer-const": [
+			"error",
+			{
+				"destructuring": "any",
+				"ignoreReadBeforeAssign": false
+			}
+		]
+	}
+}
