@@ -2,12 +2,16 @@
 
 const validateNpmName = require('validate-npm-package-name');
 const inquirer = require('inquirer');
-inquirer.registerPrompt(
-	'autocomplete',
-	require('inquirer-autocomplete-prompt')
-);
 
-const LICENSE = ['MIT', 'ISC', 'GPL', 'BSD', 'ApacheLicense', 'Unlicense'];
+const LICENSE = [
+	'MIT',
+	'ISC',
+	'GPL',
+	'BSD',
+	'ApacheLicense',
+	'Unlicense',
+	'other',
+];
 
 module.exports = async (defaultAnswers) => {
 	const queries = [
@@ -40,18 +44,18 @@ module.exports = async (defaultAnswers) => {
 			default: ({ author, name }) => `${author}/${name}`,
 		},
 		{
-			type: 'autocomplete',
+			type: 'list',
 			name: 'license',
 			message: 'Package License',
 			suggestOnly: true,
 			default: defaultAnswers.license,
-			source: (answersSoFar, input = '') => {
-				return new Promise((resolve) => {
-					resolve(
-						LICENSE.filter((x) => x.toLowerCase().includes(input.toLowerCase()))
-					);
-				});
-			},
+			choices: LICENSE,
+		},
+		{
+			type: 'input',
+			name: 'license',
+			message: 'License (other)',
+			when: ({ license }) => license === 'other',
 		},
 		{
 			type: 'list',
