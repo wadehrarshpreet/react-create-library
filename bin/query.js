@@ -68,14 +68,14 @@ module.exports = async (defaultAnswers) => {
 			type: 'list',
 			name: 'typeSystem',
 			message: 'Package Type System',
-			choices: ['none', 'typescript', 'flow'],
+			choices: ['default', 'typescript', 'flow'],
 			default: defaultAnswers.typeSystem,
 		},
 		{
 			type: 'list',
 			name: 'documentation',
 			message: 'Documentation System',
-			choices: ['none', 'docz', 'storyboard', 'react-styleguidist'],
+			choices: ['none', 'docz', 'storybook', 'react-styleguidist'],
 			default: defaultAnswers.documentation,
 		},
 		{

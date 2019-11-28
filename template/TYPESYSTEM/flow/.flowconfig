@@ -1,0 +1,15 @@
+[ignore]
+<PROJECT_ROOT>/docs/**
+<PROJECT_ROOT>/dist/**
+[include]
+<PROJECT_ROOT>/src/**
+[libs]
+
+[lints]
+
+[options]
+
+[strict]
+
+[untyped]
+.*/node_modules/*

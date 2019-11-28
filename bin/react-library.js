@@ -8,7 +8,6 @@ const figlet = require('figlet');
 
 const packageJson = require('../package.json');
 const main = require('./main');
-const CONSTANT = require('./constant.js').en;
 
 clear();
 console.log(

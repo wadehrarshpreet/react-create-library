@@ -1,0 +1,19 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { action } from '@storybook/addon-actions';
+import Demo from './Demo';
+
+<Meta title="DEMO" component={Demo} />
+
+# Demo App
+
+## Properties
+
+<Props of={Demo} />
+
+## Basic usage
+
+<Preview>
+  <Story name="info">
+    <Demo>Some messages</Demo>
+  </Story>
+</Preview>

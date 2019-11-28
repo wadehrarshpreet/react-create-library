@@ -15,7 +15,7 @@ module.exports = async () => {
 		author: config.get('author', ''),
 		email: config.get('email', ''),
 		license: config.get('license', 'MIT'),
-		packageManager: config.get('manager', 'npm'),
+		manager: config.get('manager', 'npm'),
 		style: config.get('style', 'inline'),
 		typeSystem: config.get('typeSystem', 'none'),
 		documentation: config.get('documentation', 'docz')
@@ -44,7 +44,7 @@ module.exports = async () => {
 	try {
 		if (!config.get('manager')) {
 			if (which.sync('yarn', { nothrow: true })) {
-				defaults.packageManager = 'yarn';
+				defaults.manager = 'yarn';
 			}
 			config.set('manager', defaults.manager);
 		}

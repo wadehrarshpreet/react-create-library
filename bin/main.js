@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const validateNpmName = require('validate-npm-package-name');
 
 const getDefaultData = require('./default.js');
+const generateTemplate = require('./makeTemplate');
 const { Spinner } = require('./utils');
 const getAnswerForQueries = require('./query');
 
@@ -38,8 +39,8 @@ module.exports = async (program, packageName) => {
 		process.exit(1);
 	}
 
-	const root = path.resolve(packageName);
-	const status = new Spinner('Initializing...');
+	const root = path.resolve(packageName.replace('/', '-')); // handle scope package name
+	let status = new Spinner('Initializing...');
 	status.start();
 	const defaultOptions = await getDefaultData();
 	status.stop();
@@ -47,6 +48,11 @@ module.exports = async (program, packageName) => {
 		...defaultOptions,
 		name: packageName,
 	});
+	status.message('Setting up Boilerplate...');
+	status.start();
+	const templateStatus = await generateTemplate(answers, root);
+	status.stop();
 	console.log(root);
 	console.log(answers);
+	console.log(templateStatus);
 };
