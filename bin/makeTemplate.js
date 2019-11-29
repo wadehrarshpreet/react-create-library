@@ -60,6 +60,7 @@ const directories = {
 
 const compileAndCopyTemplateFiles = (params, options) => {
 	const { files, outputDir, templateDirectoryPath } = options;
+	const failedFile = [];
 	files.forEach(async (filePath) => {
 		const destinationPath = path.resolve(
 			outputDir,
@@ -82,10 +83,12 @@ const compileAndCopyTemplateFiles = (params, options) => {
 			}
 		} catch (e) {
 			console.info(chalk.red(`Error in copying file ${fileName} `, e));
+			failedFile.push(fileName);
 			// failed
 		}
 		// compile template file using handlebars
 	});
+	return failedFile;
 };
 
 module.exports = async (params, outputDir) => {
@@ -93,9 +96,17 @@ module.exports = async (params, outputDir) => {
 	// create output directory
 	const loader = new Spinner(`Creating package ${params.name}`);
 	loader.start();
-	await mkDir(outputDir);
+	try {
+		await mkDir(outputDir);
+	} catch (e) {
+		console.error(
+			chalk.red(`Error in Creating output directory.\nError: ${e}`)
+		);
+		return false;
+	}
 	// get all Files to generate template
 	loader.message('Setting up your package...');
+	let isCopyFailed = false;
 	Object.keys(directories).forEach(async (templateDirectory) => {
 		let relativePath = '';
 		if (templateDirectory !== 'default') {
@@ -112,35 +123,50 @@ module.exports = async (params, outputDir) => {
 		});
 		if (files && files.length > 0) {
 			console.log(path.relative(templateDirectoryPath, files[0]));
-			compileAndCopyTemplateFiles(params, {
+			const failedFile = compileAndCopyTemplateFiles(params, {
 				files,
 				outputDir,
 				templateDirectoryPath,
 			});
+			if (failedFile.length > 0) {
+				isCopyFailed = true;
+			}
 		}
 	});
+	if (isCopyFailed) {
+		return false;
+	}
 	loader.stop();
 	loader.message('Installing Dependencies...');
 	loader.start();
 	// Installing Package Dependencies
-	await execShellCommand(
-		`${params.manager} install`,
-		{
-			cwd: outputDir,
-		},
-		false
-	);
-	loader.message('Setting up Example...');
-	// Installling Example Dependencies
-	await execShellCommand(`${params.manager} install`, {
-		cwd: path.resolve(outputDir, 'example'),
-	});
+	try {
+		await execShellCommand(
+			`${params.manager} install`,
+			{
+				cwd: outputDir,
+			},
+			false
+		);
+		loader.message('Setting up Example...');
+		// Installling Example Dependencies
+		await execShellCommand(`${params.manager} install`, {
+			cwd: path.resolve(outputDir, 'example'),
+		});
+	} catch (e) {
+		console.error(chalk.red(`Error in Installing Dependencies.\nError: ${e}`));
+	}
+
 	loader.message('Initializing Git Repo...');
-	await execShellCommand('git init', { cwd: outputDir });
-	await execShellCommand('git add .', { cwd: outputDir });
-	await execShellCommand(`git commit -m "init:${params.name}@0.0.1"`, {
-		cwd: outputDir,
-	});
+	try {
+		await execShellCommand('git init', { cwd: outputDir });
+		await execShellCommand('git add .', { cwd: outputDir });
+		await execShellCommand(`git commit -m "init:${params.name}@0.0.1"`, {
+			cwd: outputDir,
+		});
+	} catch (e) {
+		console.error(chalk.red(`Error in Initializing Git Repo.\nError: ${e}`));
+	}
 	loader.stop();
-	// run npm install / yarn install
+	return true;
 };

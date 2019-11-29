@@ -9,18 +9,18 @@ const figlet = require('figlet');
 const packageJson = require('../package.json');
 const main = require('./main');
 
+const programeName = 'react-library';
+
 clear();
 console.log(
 	chalk.blue(
-		figlet.textSync('react-library', {
+		figlet.textSync(programeName, {
 			font: 'Roman',
 			horizontalLayout: 'fitted',
 			verticalLayout: 'default',
 		})
 	)
 );
-
-const programeName = 'react-library';
 
 let packageName;
 

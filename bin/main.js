@@ -3,8 +3,9 @@
 const path = require('path');
 const chalk = require('chalk');
 const validateNpmName = require('validate-npm-package-name');
-
+const clear = require('clear');
 const getDefaultData = require('./default.js');
+const figlet = require('figlet');
 const generateTemplate = require('./makeTemplate');
 const { Spinner } = require('./utils');
 const getAnswerForQueries = require('./query');
@@ -58,7 +59,23 @@ module.exports = async (program, packageName) => {
 	}
 	console.info(chalk.cyan('Setting up Boilerplate...'));
 	const templateStatus = await generateTemplate(answers, root);
-	console.log(root);
-	console.log(answers);
-	console.log(templateStatus);
+	if (templateStatus) {
+		clear();
+		console.log(
+			chalk.blue(
+				figlet.textSync(program.name(), {
+					font: 'Roman',
+					horizontalLayout: 'fitted',
+					verticalLayout: 'default',
+				})
+			)
+		);
+		console.log(
+			chalk.green(
+				`Your package "${packageName}" successfully created at ${root}.`
+			)
+		);
+	} else {
+		console.error(chalk.red(`Error in creating package "${packageName}"`));
+	}
 };
