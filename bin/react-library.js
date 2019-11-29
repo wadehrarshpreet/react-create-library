@@ -20,9 +20,11 @@ console.log(
 	)
 );
 
+const programeName = 'react-library';
+
 let packageName;
 
-const program = new commander.Command(packageJson.name)
+const program = new commander.Command(programeName)
 	.version(packageJson.version)
 	.arguments('<package-name>')
 	.usage(`${chalk.green('<package-name>')} [options]`)

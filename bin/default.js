@@ -18,7 +18,8 @@ module.exports = async () => {
 		manager: config.get('manager', 'npm'),
 		style: config.get('style', 'inline'),
 		typeSystem: config.get('typeSystem', 'none'),
-		documentation: config.get('documentation', 'docz')
+		documentation: config.get('documentation', 'docz'),
+		year: new Date().getFullYear(),
 	};
 
 	try {

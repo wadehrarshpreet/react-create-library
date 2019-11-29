@@ -4,12 +4,12 @@ const Handlebars = require('handlebars');
 const mkDir = require('make-dir');
 const chalk = require('chalk');
 const globby = require('globby');
-const { Spinner } = require('./utils');
+const { Spinner, execShellCommand } = require('./utils');
 
 // prevent files to pass through handlebars compile
 const blackListExtension = ['.png', '.jpg', '.gif', '.svg', '.ico', '.pdf'];
 
-Handlebars.registerHelper('ifCond', (v1, operator, v2, options) => {
+Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
 	if (v1 === undefined || v2 === undefined) {
 		// if(!v1 || !v2 ) {
 		return options.inverse(this);
@@ -55,6 +55,7 @@ const directories = {
 	default: 'default',
 	documentation: 'DOCUMENTATION',
 	typeSystem: 'TYPESYSTEM',
+	license: 'LICENSE',
 };
 
 const compileAndCopyTemplateFiles = (params, options) => {
@@ -116,8 +117,29 @@ module.exports = async (params, outputDir) => {
 				outputDir,
 				templateDirectoryPath,
 			});
-			console.log('Done ', templateDirectory);
 		}
+	});
+	loader.stop();
+	loader.message('Installing Dependencies...');
+	loader.start();
+	// Installing Package Dependencies
+	await execShellCommand(
+		`${params.manager} install`,
+		{
+			cwd: outputDir,
+		},
+		false
+	);
+	loader.message('Setting up Example...');
+	// Installling Example Dependencies
+	await execShellCommand(`${params.manager} install`, {
+		cwd: path.resolve(outputDir, 'example'),
+	});
+	loader.message('Initializing Git Repo...');
+	await execShellCommand('git init', { cwd: outputDir });
+	await execShellCommand('git add .', { cwd: outputDir });
+	await execShellCommand(`git commit -m "init:${params.name}@0.0.1"`, {
+		cwd: outputDir,
 	});
 	loader.stop();
 	// run npm install / yarn install

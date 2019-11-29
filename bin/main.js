@@ -40,7 +40,7 @@ module.exports = async (program, packageName) => {
 	}
 
 	const root = path.resolve(packageName.replace('/', '-')); // handle scope package name
-	let status = new Spinner('Initializing...');
+	const status = new Spinner('Initializing...');
 	status.start();
 	const defaultOptions = await getDefaultData();
 	status.stop();
@@ -48,10 +48,16 @@ module.exports = async (program, packageName) => {
 		...defaultOptions,
 		name: packageName,
 	});
-	status.message('Setting up Boilerplate...');
-	status.start();
+
+	// author info for LICENSE
+	answers.year = new Date().getFullYear();
+	if (answers.author) {
+		answers.authorInfo = `${answers.author} ${
+			answers.email ? `(${answers.email})` : ''
+		}`;
+	}
+	console.info(chalk.cyan('Setting up Boilerplate...'));
 	const templateStatus = await generateTemplate(answers, root);
-	status.stop();
 	console.log(root);
 	console.log(answers);
 	console.log(templateStatus);
