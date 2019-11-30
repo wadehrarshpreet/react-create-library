@@ -20,7 +20,7 @@
 		"flow": "flow",
 		{{/ifCond}}
 		"installPeer": "node build-tool/peerDep.js",
-		"postinstall": "npm run installPeer{{#ifCond documentation '===' 'docz'}} && cd docs && {{manager}} install{{/ifCond}}",
+		"postinstall": "{{#ifCond documentation '===' 'docz'}} && cd docs && {{manager}} install{{/ifCond}}",
 		"test": "jest",
 		"test:dev": "jest --watch",
 		"lint": "eslint src/**/*.{js,tsx,ts,jsx}",

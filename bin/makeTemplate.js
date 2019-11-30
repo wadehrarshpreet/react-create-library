@@ -153,6 +153,10 @@ module.exports = async (params, outputDir) => {
 		await execShellCommand(`${params.manager} install`, {
 			cwd: path.resolve(outputDir, 'example'),
 		});
+		loader.message('Installing Peer Dependencies');
+		await execShellCommand(`${params.manager} run installPeer`, {
+			cwd: path.resolve(outputDir, 'example'),
+		});
 	} catch (e) {
 		console.error(chalk.red(`Error in Installing Dependencies.\nError: ${e}`));
 	}
