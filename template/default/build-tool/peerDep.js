@@ -12,6 +12,7 @@ if (packageNeedForDevelopment.length < 1) {
 	process.exit(0);
 }
 {{#ifCond manager '===' 'yarn'}}
+console.log('installing, ' + packageNeedForDevelopment);
 const result = spawn.sync(
 	'yarn',
 	['add', ...packageNeedForDevelopment, '-P', '--ignore-scripts'],

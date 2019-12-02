@@ -20,7 +20,6 @@
 		"flow": "flow",
 		{{/ifCond}}
 		"installPeer": "node build-tool/peerDep.js",
-		"postinstall": "{{#ifCond documentation '===' 'docz'}} && cd docs && {{manager}} install{{/ifCond}}",
 		"test": "jest",
 		"test:dev": "jest --watch",
 		"lint": "eslint src/**/*.{js,tsx,ts,jsx}",
@@ -31,9 +30,9 @@
 		"build": "node build-tool/build.js",
 		"prepublish": "npm run lint && npm run build",
 		"publish": "npm run prepublish && npm publish",
-		"doc:dev": "{{#ifCond documentation '===' 'docz'}} cd docs && npm run docz:dev {{else}} {{#ifCond documentation '===' 'storybook'}} start-storybook -p 6006 {{else}} styleguidist server{{/ifCond}}{{/ifCond}}",
-		"doc:build": "{{#ifCond documentation '===' 'docz'}} cd docs && npm run docz:build {{else}} {{#ifCond documentation '===' 'storybook'}} build-storybook --output-dir docs/html {{else}} styleguidist build{{/ifCond}}{{/ifCond}}",
-		"doc:deploy": "npm run doc:build && gh-pages -d docs/html"
+		"doc:dev": "{{#ifCond documentation '===' 'docz'}}docz dev {{else}} {{#ifCond documentation '===' 'storybook'}} start-storybook -p 6006 {{else}} styleguidist server{{/ifCond}}{{/ifCond}}",
+		"doc:build": "{{#ifCond documentation '===' 'docz'}}docz build {{else}} {{#ifCond documentation '===' 'storybook'}} build-storybook --output-dir docs {{else}} styleguidist build{{/ifCond}}{{/ifCond}}",
+		"doc:deploy": "npm run doc:build && gh-pages -d docs"
 	},
 	"files": [
 		"*.md",
@@ -130,6 +129,12 @@
 		"standard-version": "^7.0.0",
 		"stylelint": "^12.0.0",
 		"stylelint-config-standard": "^19.0.0"
+		{{#ifCond documentation '===' 'docz'}}
+		,"docz": "^2.1.1"
+			{{#ifCond typeSystem '===' 'flow'}}
+			,"@babel/preset-flow": "^7.7.4"
+			{{/ifCond}}
+		{{/ifCond}}
 		{{#ifCond style '===' 'emotion'}}
 		,"eslint-plugin-emotion": "^10.0.14"
 		{{/ifCond}}

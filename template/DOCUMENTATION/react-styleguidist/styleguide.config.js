@@ -16,7 +16,7 @@ const pkg = require('./package.json');
 
 module.exports = {
 	title: `${pkg.name} v${pkg.version}`,
-	styleguideDir: 'docs/html',
+	styleguideDir: 'docs',
 	{{#ifCond typeSystem '===' 'typescript'}}
 	components: 'src/**/[A-Z]*.{js,ts,tsx,jsx}',
 	propsParser: require('react-docgen-typescript').withCustomConfig(
