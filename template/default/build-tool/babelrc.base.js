@@ -32,7 +32,8 @@ module.exports = ({ pure, withModules }) => ({
 		['@babel/proposal-class-properties', { loose: true }],
 		'@babel/transform-runtime',
 		'minify-dead-code-elimination',
-		{{#ifCond stype '===' 'emotion'}}'emotion'{{/ifCond}}
+		{{#ifCond stype '===' 'emotion'}}'emotion',{{/ifCond}}
+		{{#ifCond style '===' 'styled-component'}}'babel-plugin-styled-components',{{/ifCond}}
 	],
 	exclude: '**/*.{spec,test}.{js,jsx,tsx,ts}',
 });

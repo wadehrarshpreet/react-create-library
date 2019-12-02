@@ -3,6 +3,10 @@
 import { jsx, css } from '@emotion/core';
 {{else}}
 import React from 'react';
+{{#ifCond style '===' 'styled-component'}}
+import styled from 'styled-components';
+{{/ifCond}}
+
 {{/ifCond}}
 import PropType from 'prop-types';
 
@@ -13,7 +17,21 @@ const types = {
 	warning: '#FFA502',
 };
 
+{{#ifCond style '===' 'styled-component'}}
+const DEMODiv = styled.div`
+	padding: 20px;
+	border-radius: 3px;
+	color: white;
+	background: ${(props) => types[props.type] || 'black'};
+`;
+{{/ifCond}}
+
 const DemoStyled = ({ children, type = 'info', ...rest }) => (
+	{{#ifCond style '===' 'styled-component'}}
+	<DEMODiv data-testid='DemoMessage' type={type} {...rest}>
+		{children}
+	</DEMODiv>
+	{{else}}
 	<div
 		data-testid='DemoMessage'
 		{{#ifCond style '===' 'inline'}}
@@ -36,6 +54,7 @@ const DemoStyled = ({ children, type = 'info', ...rest }) => (
 	>
 		{children}
 	</div>
+	{{/ifCond}}
 );
 
 const Demo = (props) => <DemoStyled {...props} />;

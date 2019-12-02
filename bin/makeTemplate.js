@@ -148,8 +148,8 @@ module.exports = async (params, outputDir) => {
 			},
 			false
 		);
-		loader.message('Installing Peer Dependencies');
-		await execShellCommand(`${params.manager} run installPeer`, {
+		// loader.message('Installing Peer Dependencies');
+		await execShellCommand(`${params.manager} run build`, {
 			cwd: outputDir,
 		});
 		loader.message('Setting up Example...');

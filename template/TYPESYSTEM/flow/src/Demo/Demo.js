@@ -3,7 +3,10 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 {{/ifCond}}
-import type { Node } from 'react';
+import * as React from 'react';
+{{#ifCond style '===' 'styled-component'}}
+import styled from 'styled-components';
+{{/ifCond}}
 
 
 type Type = 'info' | 'success' | 'danger' | 'warning';
@@ -23,7 +26,21 @@ const types = {
 	warning: '#FFA502',
 };
 
-const Demo = ({ children, type = 'info', ...rest }: DemoProps): Node => (
+{{#ifCond style '===' 'styled-component'}}
+const DEMODiv = styled.div`
+	padding: 20px;
+	border-radius: 3px;
+	color: white;
+	background: ${(props: DemoProps) => types[props.type] || 'black'};
+`;
+{{/ifCond}}
+
+const Demo = ({ children, type = 'info', ...rest }: DemoProps): React.Node => (
+	{{#ifCond style '===' 'styled-component'}}
+	<DEMODiv data-testid='DemoMessage' type={type} {...rest}>
+		{children}
+	</DEMODiv>
+	{{else}}
 	<div
 		data-testid='DemoMessage'
 		{{#ifCond style '===' 'inline'}}
@@ -46,6 +63,7 @@ const Demo = ({ children, type = 'info', ...rest }: DemoProps): Node => (
 	>
 		{children}
 	</div>
+	{{/ifCond}}
 );
 
 export default Demo;

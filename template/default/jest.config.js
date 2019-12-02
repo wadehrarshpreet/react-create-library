@@ -3,6 +3,9 @@ module.exports = {
 		'<rootDir>/dist/',
 		'<rootDir>/docs/',
 		'<rootDir>/example/',
+		{{#ifCond documentation '===' 'docz'}}
+		'<rootDir>/.docz/',
+		{{/ifCond}}
 		'<rootDir>/node_modules/',
 	],
 	{{#ifCond typeSystem '===' 'typescript'}}
