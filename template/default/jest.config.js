@@ -2,6 +2,7 @@ module.exports = {
 	testPathIgnorePatterns: [
 		'<rootDir>/dist/',
 		'<rootDir>/docs/',
+		'<rootDir>/example/',
 		'<rootDir>/node_modules/',
 	],
 	{{#ifCond typeSystem '===' 'typescript'}}

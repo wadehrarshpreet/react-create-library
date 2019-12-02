@@ -1,5 +1,9 @@
+{{#ifCond style '===' 'emotion'}}
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+{{else}}
+import React from 'react';
+{{/ifCond}}
 import PropType from 'prop-types';
 
 const types = {
@@ -12,12 +16,22 @@ const types = {
 const DemoStyled = ({ children, type = 'info', ...rest }) => (
 	<div
 		data-testid='DemoMessage'
+		{{#ifCond style '===' 'inline'}}
+		style=\{{
+			padding: '20px',
+			borderRadius: '3px',
+			color: 'white',
+			background: `${types[type] || 'black'}`
+		}}
+		{{/ifCond}}
+		{{#ifCond style '===' 'emotion'}}
 		css={css`
 			padding: 20px;
 			border-radius: 3px;
 			color: white;
 			background: ${types[type] || 'black'};
 		`}
+		{{/ifCond}}
 		{...rest}
 	>
 		{children}

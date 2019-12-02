@@ -1,6 +1,10 @@
+{{#ifCond style '===' 'emotion'}}
 /** @jsx jsx */
 import { SFC } from 'react';
 import { jsx, css } from '@emotion/core';
+{{else}}
+import React, { SFC } from 'react';
+{{/ifCond}}
 
 export type Type = 'info' | 'success' | 'danger' | 'warning';
 export type TypesMap = Record<Type, string>;
@@ -24,12 +28,22 @@ export interface DemoProps {
 const Demo: SFC<DemoProps> = ({ children, type = 'info', ...rest }) => (
 	<div
 		data-testid='DemoMessage'
+		{{#ifCond style '===' 'inline'}}
+		style=\{{
+			padding: '20px',
+			borderRadius: '3px',
+			color: 'white',
+			background: `${types[type] || 'black'}`
+		}}
+		{{/ifCond}}
+		{{#ifCond style '===' 'emotion'}}
 		css={css`
 			padding: 20px;
 			border-radius: 3px;
 			color: white;
 			background: ${types[type] || 'black'};
 		`}
+		{{/ifCond}}
 		{...rest}
 	>
 		{children}
