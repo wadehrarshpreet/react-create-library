@@ -2,6 +2,7 @@ import React from 'react';
 import { Demo } from '{{name}}';
 import logo from './logo.svg';
 import './App.css';
+import '{{name}}/dist/{{name}}.css'
 
 const App: React.FC = () => {
 	return (

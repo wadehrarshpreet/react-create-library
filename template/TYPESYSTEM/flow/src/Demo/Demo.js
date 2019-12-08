@@ -7,6 +7,15 @@ import * as React from 'react';
 {{#ifCond style '===' 'styled-component'}}
 import styled from 'styled-components';
 {{/ifCond}}
+{{#ifCond style '===' 'css'}}
+import './Demo.css';
+{{/ifCond}}
+{{#ifCond style '===' 'scss'}}
+import './Demo.scss';
+{{/ifCond}}
+{{#ifCond style '===' 'less'}}
+import './Demo.less';
+{{/ifCond}}
 
 
 type Type = 'info' | 'success' | 'danger' | 'warning';
@@ -43,6 +52,12 @@ const Demo = ({ children, type = 'info', ...rest }: DemoProps): React.Node => (
 	{{else}}
 	<div
 		data-testid='DemoMessage'
+		{{#if externalCSS}}
+		className={'my-demo-class'}
+		style=\{{
+			background: `${types[type] || 'black'}`,
+		}}
+		{{/if}}
 		{{#ifCond style '===' 'inline'}}
 		style=\{{
 			padding: '20px',

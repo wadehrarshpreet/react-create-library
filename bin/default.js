@@ -8,17 +8,20 @@ const githubUsername = require('github-username');
 
 const { config } = require('./utils');
 
-module.exports = async () => {
+module.exports = async (program) => {
 	const defaults = {
 		name: '',
 		description: '',
 		author: config.get('author', ''),
 		email: config.get('email', ''),
-		license: config.get('license', 'MIT'),
-		manager: config.get('manager', 'npm'),
-		style: config.get('style', 'inline'),
-		typeSystem: config.get('typeSystem', 'none'),
-		documentation: config.get('documentation', 'docz'),
+		license: program.license || config.get('license', 'MIT'),
+		manager: program.pm || config.get('manager', 'npm'),
+		style: program.style || config.get('style', 'inline'),
+		typeSystem:
+			program.type === 'none'
+				? 'default'
+				: program.type || config.get('typeSystem', 'default'),
+		documentation: program.doc || config.get('documentation', 'docz'),
 		year: new Date().getFullYear(),
 	};
 
@@ -43,12 +46,10 @@ module.exports = async () => {
 	} catch (err) {}
 
 	try {
-		if (!config.get('manager')) {
-			if (which.sync('yarn', { nothrow: true })) {
-				defaults.manager = 'yarn';
-			}
-			config.set('manager', defaults.manager);
+		if (which.sync('yarn', { nothrow: true })) {
+			defaults.manager = 'yarn';
 		}
+		config.set('manager', defaults.manager);
 	} catch (managerError) {}
 
 	return defaults;

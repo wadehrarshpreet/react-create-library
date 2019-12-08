@@ -62,13 +62,25 @@ const compileAndCopyTemplateFiles = (params, options) => {
 	const { files, outputDir, templateDirectoryPath } = options;
 	const failedFile = [];
 	files.forEach(async (filePath) => {
-		const destinationPath = path.resolve(
+		let destinationPath = path.resolve(
 			outputDir,
 			path.relative(templateDirectoryPath, filePath)
 		);
 		const destinationPathDir = path.parse(destinationPath).dir;
 		await mkDir(destinationPathDir);
-		const fileName = path.basename(destinationPath);
+		let fileName = path.basename(destinationPath);
+		if (
+			!destinationPathDir.includes('/example/src') &&
+			fileName.includes('.css') &&
+			params.externalCSS &&
+			params.style !== 'css'
+		) {
+			fileName = fileName.replace('css', params.style);
+		}
+		destinationPath = destinationPath.replace(
+			path.basename(destinationPath),
+			fileName
+		);
 		try {
 			console.log(`Copying...${fileName} to ${destinationPath}`);
 			if (fileName.match(new RegExp(blackListExtension.join('|'), 'gi'))) {

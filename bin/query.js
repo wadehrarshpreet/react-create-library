@@ -13,6 +13,18 @@ const LICENSE = [
 	'other',
 ];
 
+const PACKAGE_MANAGER = ['npm', 'yarn'];
+const TYPE_SYSTEM = ['default', 'typescript', 'flow'];
+const DOCUMENTATION = ['none', 'docz', 'storybook', 'react-styleguidist'];
+const STYLE = [
+	'inline',
+	'css',
+	'less',
+	'scss',
+	'emotion',
+	'styled-component',
+];
+
 module.exports = async (defaultAnswers) => {
 	const queries = [
 		{
@@ -61,38 +73,36 @@ module.exports = async (defaultAnswers) => {
 			type: 'list',
 			name: 'manager',
 			message: 'Package Manager',
-			choices: ['npm', 'yarn'],
+			choices: PACKAGE_MANAGER,
 			default: defaultAnswers.manager,
 		},
 		{
 			type: 'list',
 			name: 'typeSystem',
 			message: 'Package Type System',
-			choices: ['default', 'typescript', 'flow'],
+			choices: TYPE_SYSTEM,
 			default: defaultAnswers.typeSystem,
 		},
 		{
 			type: 'list',
 			name: 'documentation',
 			message: 'Documentation System',
-			choices: ['none', 'docz', 'storybook', 'react-styleguidist'],
+			choices: DOCUMENTATION,
 			default: defaultAnswers.documentation,
 		},
 		{
 			type: 'list',
 			name: 'style',
 			message: 'Style System',
-			choices: [
-				{ name: 'No style or inline style', value: 'inline' },
-				'css',
-				'less',
-				'scss',
-				'emotion',
-				'styled-component',
-			],
+			choices: STYLE,
 			default: defaultAnswers.style,
 		},
 	];
 	const userAnswers = await inquirer.prompt(queries);
 	return userAnswers;
 };
+
+module.exports.PACKAGE_MANAGER = PACKAGE_MANAGER;
+module.exports.TYPE_SYSTEM = TYPE_SYSTEM;
+module.exports.DOCUMENTATION = DOCUMENTATION;
+module.exports.STYLE = STYLE;

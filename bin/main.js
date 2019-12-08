@@ -43,13 +43,26 @@ module.exports = async (program, packageName) => {
 	const root = path.resolve(packageName.replace('/', '-')); // handle scope package name
 	const status = new Spinner('Initializing...');
 	status.start();
-	const defaultOptions = await getDefaultData();
+	const defaultOptions = await getDefaultData(program);
 	status.stop();
-	const answers = await getAnswerForQueries({
-		...defaultOptions,
-		name: packageName,
-	});
-
+	let answers = { ...defaultOptions, name: packageName };
+	if (program.skip !== true) {
+		answers = await getAnswerForQueries({
+			...defaultOptions,
+			name: packageName,
+		});
+	}
+	if (['less', 'css', 'scss'].indexOf(answers.style) !== -1) {
+		answers.externalCSS = true;
+	}
+	clear();
+	console.log(`
+${chalk.cyan(`Using Package Manager : ${answers.manager}`)}
+${chalk.cyan(`Using Type System : ${answers.typeSystem}`)}
+${chalk.cyan(`Using Documentation System : ${answers.documentation}`)}
+${chalk.cyan(`Using Style System : ${answers.style}`)}
+${chalk.cyan(`Using LICENSE : ${answers.license}`)}
+	`);
 	// author info for LICENSE
 	answers.year = new Date().getFullYear();
 	if (answers.author) {

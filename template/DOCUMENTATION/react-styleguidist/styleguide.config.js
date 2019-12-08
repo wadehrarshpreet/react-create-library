@@ -1,5 +1,7 @@
 const path = require('path');
-
+{{#ifCond style '===' 'less'}}
+const less = require('webpack-blocks-less');
+{{/ifCond}}
 const {
 	createConfig,
 	babel,
@@ -33,11 +35,16 @@ module.exports = {
 		{{#ifCond typeSystem '===' 'typescript'}}
 		typescript(),
 		{{/ifCond}}
+		{{#ifCond style '===' 'less'}}
+		less(),
+		{{/ifCond}}
 		css(),
+		{{#ifCond style '===' 'scss'}}
 		match(
 			['*.scss', '!*node_modules*'],
 			[css(), sass(/* node-sass options */)]
 		),
+		{{/ifCond}}
 		match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.svg', '*.webp'], [file()]),
 	]),
 };

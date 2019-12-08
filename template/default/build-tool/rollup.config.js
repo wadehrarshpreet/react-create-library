@@ -5,6 +5,10 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+{{#if externalCSS}}
+import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
+{{/if}}
 import { terser } from 'rollup-plugin-terser';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 import { camelize } from 'inflected';
@@ -80,9 +84,18 @@ export default {
 		babel({
 			exclude: 'node_modules/**', // only transpile our source code,
 			runtimeHelpers: true,
-			presets: [here('babelrc.esm.js')],
+			presets: [here('babelrc.umd.js')],
 			extensions
 		}),
+		{{#if externalCSS}}
+		postcss({
+			extract: `dist/${pkg.name}.css`,
+			plugins: [autoprefixer()],
+			minimize: true,
+			sourceMap: true,
+			modules: false,
+		}),
+		{{/if}}
 		replace(replacements),
 		minify ? terser() : null,
 		useSizeSnapshot ? sizeSnapshot({ printInfo: false }) : null,

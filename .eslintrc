@@ -2,7 +2,7 @@
 	"extends": "standard",
 	"rules": {
 		"semi": ["error", "always"],
-		"camelcase": "off",
+		"camelcase": 2,
 		"comma-dangle": "off",
 		"no-tabs": 0,
 		"indent": [2, "tab", { "SwitchCase": 1 }],

@@ -9,6 +9,9 @@
 	},
 	"main": "dist/cjs/index",
 	"module": "dist/es/index",
+	{{#if externalCSS}}
+	"style": "dist/{{name}}.css",
+	{{/if}}
 	{{#ifCond typeSystem '===' 'typescript'}}"types": "dist/types/index.d.ts",{{/ifCond}}
 	"sideEffects": false,
 	"author": {
@@ -22,17 +25,20 @@
 		"installPeer": "node build-tool/peerDep.js",
 		"test": "jest",
 		"test:dev": "jest --watch",
-		"lint": "eslint src/**/*.{js,tsx,ts,jsx}",
+		"lint": {{#ifCond typeSystem '===' 'typescript'}}"eslint src/**/*.{js,tsx,ts,jsx} --fix"{{else}}"eslint src/**/*.{js,jsx} --fix"{{/ifCond}},
 		"stylelint": "./node_modules/.bin/stylelint src/**/*.(ts|tsx|jsx|js|css|sass|less) --fix",
 		"commit": "git-cz",
 		"release": "standard-version",
 		"release:tags": "git push --follow-tags origin master",
 		"build": "node build-tool/build.js",
 		"prepublish": "npm run lint && npm run build",
-		"publish": "npm run prepublish && npm publish",
-		"doc:dev": "{{#ifCond documentation '===' 'docz'}}docz dev {{else}} {{#ifCond documentation '===' 'storybook'}} start-storybook -p 6006 {{else}} styleguidist server{{/ifCond}}{{/ifCond}}",
+		"publish": "npm run prepublish && npm publish"
+		{{#ifCond documentation '===' 'none'}}
+		{{else}}
+		,"doc:dev": "{{#ifCond documentation '===' 'docz'}}docz dev {{else}} {{#ifCond documentation '===' 'storybook'}} start-storybook -p 6006 {{else}} styleguidist server{{/ifCond}}{{/ifCond}}",
 		"doc:build": "{{#ifCond documentation '===' 'docz'}}docz build {{else}} {{#ifCond documentation '===' 'storybook'}} build-storybook --output-dir docs {{else}} styleguidist build{{/ifCond}}{{/ifCond}}",
 		"doc:deploy": "npm run doc:build && gh-pages -d docs"
+		{{/ifCond}}
 	},
 	"files": [
 		"*.md",
@@ -114,7 +120,6 @@
 		"eslint-plugin-prettier": "^3.1.1",
 		"eslint-plugin-react": "^7.16.0",
 		"eslint-plugin-react-hooks": "^1.0.1",
-		"gh-pages": "^2.1.1",
 		"husky": "^3.0.9",
 		"jest": "^24.9.0",
 		"lint-staged": "^9.4.2",
@@ -138,6 +143,12 @@
 		,"docz": "^2.1.1"
 			{{#ifCond typeSystem '===' 'flow'}}
 			,"@babel/preset-flow": "^7.7.4"
+			{{/ifCond}}
+			{{#ifCond style '===' 'less'}}
+			,"gatsby-plugin-less": "^3.0.15"
+			{{/ifCond}}
+			{{#ifCond style '===' 'scss'}}
+			,"gatsby-plugin-sass": "2.1.17"
 			{{/ifCond}}
 		{{/ifCond}}
 		{{#ifCond style '===' 'emotion'}}
@@ -163,6 +174,16 @@
 			,"awesome-typescript-loader": "^5.2.1",
 			"react-docgen-typescript-loader": "^3.6.0"
 			{{/ifCond}}
+			{{#if externalCSS}}
+			,"css-loader": "^3.2.1",
+			"style-loader": "^1.0.1"
+			{{/if}}
+			{{#ifCond style '===' 'scss'}}
+			,"sass-loader": "^8.0.0"
+			{{/ifCond}}
+			{{#ifCond style '===' 'less'}}
+			,"less-loader": "^5.0.0"
+			{{/ifCond}}
 		{{/ifCond}}
 		{{#ifCond documentation '===' 'react-styleguidist'}}
 			,"react-styleguidist": "^10.2.1",
@@ -170,6 +191,13 @@
 			{{#ifCond typeSystem '===' 'typescript'}}
 			,"@webpack-blocks/typescript": "^2.0.1",
 			"react-docgen-typescript": "^1.16.1"
+			{{/ifCond}}
+			{{#ifCond style '===' 'less'}}
+			,"less-loader": "^5.0.0"
+			,"webpack-blocks-less": "^0.2.0"
+			{{/ifCond}}
+			{{#ifCond style '===' 'scss'}}
+			,"sass-loader": "^8.0.0"
 			{{/ifCond}}
 		{{/ifCond}}
 		{{#ifCond typeSystem '===' 'typescript'}}
@@ -189,6 +217,22 @@
 		,"@babel/preset-flow": "^7.7.4",
 		"flow-typed": "^2.6.2"
 		{{/ifCond}}
+		{{#if externalCSS}}
+		,"autoprefixer": "^9.7.3",
+		"babel-plugin-transform-require-ignore": "^0.1.1",
+		"postcss-preset-env": "^6.7.0",
+		"rollup-plugin-postcss": "^2.0.3"
+		{{/if}}
+		{{#ifCond style '===' 'scss'}}
+		,"node-sass": "^4.13.0"
+		{{/ifCond}}
+		{{#ifCond style '===' 'less'}}
+		,"less": "^3.10.3"
+		{{/ifCond}}
+		{{#ifCond documentation '!==' 'none'}}
+		,"gh-pages": "^2.1.1"
+		{{/ifCond}}
+		
 		
 	},
 	"keywords": [
