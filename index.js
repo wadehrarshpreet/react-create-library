@@ -8,9 +8,9 @@ if (nodeMajorVersion < 8) {
 	console.error(
 		'You are running Node ' +
 			currentNodeVersion +
-			'.\n React-Library requires Node 8+. Please update your Node version.'
+			'.\nreact-lib requires Node 8+. Please update your Node version.'
 	);
 	process.exit(1);
 }
 
-require('./bin/react-library');
+require('./bin/react-lib');

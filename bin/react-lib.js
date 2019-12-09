@@ -16,7 +16,7 @@ const {
 	STYLE,
 } = require('./query');
 
-const programeName = 'react-library';
+const programeName = 'react-lib';
 
 clear();
 console.log(

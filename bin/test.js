@@ -44,7 +44,7 @@ let testIndex = 0;
 						projectName,
 						cmd: `node ${path.join(
 							__dirname,
-							'react-library.js'
+							'react-lib.js'
 						)} ${projectName} --pm ${manager} --type ${type} --doc ${doc} --style ${style} -s`,
 						manager,
 						type,

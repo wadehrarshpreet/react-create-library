@@ -30,7 +30,7 @@ function execShellCommand(cmd, options = {}, logs = true) {
 	});
 }
 module.exports = {
-	config: new Conf({ projectName: '@react/create-library' }),
+	config: new Conf({ projectName: 'react-create-library' }),
 	Spinner,
 	execShellCommand,
 	figletText: 'react-lib',

@@ -1,5 +1,5 @@
+# react-create-library
 
-# @react/create-library
 > Command Line tool to generate boilerplate for your react library.
 
 Create React Library with no build configuration.
@@ -7,11 +7,10 @@ Create React Library with no build configuration.
 ## Usage
 
 ```sh
-npx react-library my-library
+npx react-lib my-library
 ```
 
-![react-library](assets/react-library.gif)
-  
+![react-lib](assets/react-lib.gif)
 
 ## Features
 
@@ -28,11 +27,10 @@ npx react-library my-library
 - [Jest](https://facebook.github.io/jest/) for testing
 - Working example setup using [create-react-app](https://github.com/facebook/create-react-app)
 
-
 ### CLI Options
 
 ```
-Usage: react-library <package-name> [Options]
+Usage: react-lib <package-name> [Options]
 
 Options:
   -V, --version          output the version number
@@ -49,4 +47,4 @@ Options:
 Node version require >= 8 & npm >= 5
 ```
 
-If something doesn’t work, please [file an issue](https://github.com/wadehrarshpreet/react-library/issues/new)
+If something doesn’t work, please [file an issue](https://github.com/wadehrarshpreet/react-lib/issues/new)

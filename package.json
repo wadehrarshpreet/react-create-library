@@ -1,15 +1,16 @@
 {
-	"name": "@react/create-library",
+	"name": "react-create-library",
 	"version": "1.0.0",
 	"description": "CLI tools to generate boilerplate to create component based library",
 	"main": "index.js",
-	"homepage": "https://github.com/wadehrarshpreet/react-library",
+	"homepage": "https://github.com/wadehrarshpreet/react-create-library",
 	"bin": {
-		"react-library": "index.js"
+		"react-lib": "index.js",
+		"react-create-library": "index.js"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/wadehrarshpreet/react-library"
+		"url": "https://github.com/wadehrarshpreet/react-create-library"
 	},
 	"scripts": {
 		"commit": "git-cz",
