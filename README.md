@@ -7,10 +7,8 @@ Create React Library with no build configuration.
 ## Usage
 
 ```sh
-npx react-lib my-library
+npx react-create-library my-library
 ```
-
-![react-lib](assets/react-lib.gif)
 
 ## Features
 
