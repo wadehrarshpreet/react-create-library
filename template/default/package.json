@@ -31,8 +31,8 @@
 		"release": "standard-version",
 		"release:tags": "git push --follow-tags origin master",
 		"build": "node build-tool/build.js",
-		"prepublish": "npm run lint && npm run build",
-		"publish": "npm run prepublish && npm publish"
+		"pre-publish": "npm run lint && npm run build",
+		"publish": "npm run pre-publish && npm publish"
 		{{#ifCond documentation '===' 'none'}}
 		{{else}}
 		,"doc:dev": "{{#ifCond documentation '===' 'docz'}}docz dev {{else}} {{#ifCond documentation '===' 'storybook'}} start-storybook -p 6006 {{else}} styleguidist server{{/ifCond}}{{/ifCond}}",
