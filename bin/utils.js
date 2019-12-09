@@ -13,12 +13,15 @@ function execShellCommand(cmd, options = {}, logs = true) {
 		let stdout = '';
 		let stderr = '';
 		processData.stdout.on('data', (data) => {
-			if (logs);
-			console.log('s', data.toString());
+			if (logs) {
+				console.log(data.toString());
+			}
 			stdout += data.toString();
 		});
 		processData.stderr.on('data', function(data) {
-			if (logs) console.log('err', data.toString());
+			if (logs) {
+				console.log(data.toString());
+			}
 			stderr += data.toString();
 		});
 		processData.stdout.on('close', function(data) {
@@ -30,4 +33,5 @@ module.exports = {
 	config: new Conf({ projectName: '@react/create-library' }),
 	Spinner,
 	execShellCommand,
+	figletText: 'react-lib',
 };

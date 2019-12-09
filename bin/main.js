@@ -7,7 +7,7 @@ const clear = require('clear');
 const getDefaultData = require('./default.js');
 const figlet = require('figlet');
 const generateTemplate = require('./makeTemplate');
-const { Spinner } = require('./utils');
+const { Spinner, figletText } = require('./utils');
 const getAnswerForQueries = require('./query');
 
 module.exports = async (program, packageName) => {
@@ -15,7 +15,9 @@ module.exports = async (program, packageName) => {
 	if (typeof packageName === 'undefined') {
 		console.error('Please specify the package name:');
 		console.log(
-			`${chalk.cyan(program.name())} ${chalk.green('<package-name>')} [options]\n`
+			`${chalk.cyan(program.name())} ${chalk.green(
+				'<package-name>'
+			)} [options]\n`
 		);
 		console.log('For example:');
 		console.log(
@@ -25,7 +27,7 @@ module.exports = async (program, packageName) => {
 			`${chalk.cyan(program.name())} ${chalk.green('my-date-picker')} --pm yarn`
 		);
 		console.log(
-			`\n Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
+			`\nRun ${chalk.cyan(`${program.name()} --help`)} to see all options.`
 		);
 		process.exit(1);
 	}
@@ -59,13 +61,13 @@ module.exports = async (program, packageName) => {
 		answers.externalCSS = true;
 	}
 	clear();
-	console.log(`
+	console.log(`${chalk.green(`Generating Library : ${answers.name}`)}
+
 ${chalk.cyan(`Using Package Manager : ${answers.manager}`)}
 ${chalk.cyan(`Using Type System : ${answers.typeSystem}`)}
 ${chalk.cyan(`Using Documentation System : ${answers.documentation}`)}
 ${chalk.cyan(`Using Style System : ${answers.style}`)}
-${chalk.cyan(`Using LICENSE : ${answers.license}`)}
-	`);
+${chalk.cyan(`Using LICENSE : ${answers.license}`)}`);
 	// author info for LICENSE
 	answers.year = new Date().getFullYear();
 	if (answers.author) {
@@ -74,14 +76,14 @@ ${chalk.cyan(`Using LICENSE : ${answers.license}`)}
 		}`;
 	}
 	console.info(chalk.cyan('Setting up Boilerplate...'));
-	const templateStatus = await generateTemplate(answers, root);
+	const templateStatus = await generateTemplate(answers, root, program.verbose);
 	if (templateStatus) {
 		clear();
 		console.log(
 			chalk.blue(
-				figlet.textSync(program.name(), {
+				figlet.textSync(figletText, {
 					font: 'Roman',
-					horizontalLayout: 'fitted',
+					horizontalLayout: 'full',
 					verticalLayout: 'default',
 				})
 			)

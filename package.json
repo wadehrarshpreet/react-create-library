@@ -3,8 +3,13 @@
 	"version": "1.0.0",
 	"description": "CLI tools to generate boilerplate to create component based library",
 	"main": "index.js",
+	"homepage": "https://github.com/wadehrarshpreet/react-library",
 	"bin": {
 		"react-library": "index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wadehrarshpreet/react-library"
 	},
 	"scripts": {
 		"commit": "git-cz",
@@ -49,6 +54,7 @@
 		"eslint-plugin-standard": "^4.0.1",
 		"husky": "^3.1.0",
 		"lint-staged": "^9.4.3",
+		"prettier": "^1.19.1",
 		"pretty-quick": "^2.0.1",
 		"standard-version": "^7.0.1"
 	},

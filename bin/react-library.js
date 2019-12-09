@@ -8,6 +8,7 @@ const figlet = require('figlet');
 
 const packageJson = require('../package.json');
 const main = require('./main');
+const { figletText } = require('./utils');
 const {
 	PACKAGE_MANAGER,
 	TYPE_SYSTEM,
@@ -20,9 +21,9 @@ const programeName = 'react-library';
 clear();
 console.log(
 	chalk.blue(
-		figlet.textSync(programeName, {
+		figlet.textSync(figletText, {
 			font: 'Roman',
-			horizontalLayout: 'fitted',
+			horizontalLayout: 'full',
 			verticalLayout: 'default',
 		})
 	)
@@ -38,10 +39,8 @@ const program = new commander.Command(programeName)
 		packageName = name;
 	})
 	.option('--verbose', 'print additional logs')
-	.option(
-		'--pm <value>',
-		'Package Manager (npm or yarn)',
-		(value) => (PACKAGE_MANAGER.indexOf(value) === -1 ? '' : value)
+	.option('--pm <value>', 'Package Manager (npm or yarn)', (value) =>
+		PACKAGE_MANAGER.indexOf(value) === -1 ? '' : value
 	)
 	.option(
 		'--type <value>',

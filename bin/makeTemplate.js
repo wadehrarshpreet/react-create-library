@@ -59,7 +59,12 @@ const directories = {
 };
 
 const compileAndCopyTemplateFiles = (params, options) => {
-	const { files, outputDir, templateDirectoryPath } = options;
+	const {
+		files,
+		outputDir,
+		templateDirectoryPath,
+		isVerbose = false,
+	} = options;
 	const failedFile = [];
 	files.forEach(async (filePath) => {
 		let destinationPath = path.resolve(
@@ -82,7 +87,9 @@ const compileAndCopyTemplateFiles = (params, options) => {
 			fileName
 		);
 		try {
-			console.log(`Copying...${fileName} to ${destinationPath}`);
+			if (isVerbose) {
+				console.log(`Copying...${fileName} to ${destinationPath}`);
+			}
 			if (fileName.match(new RegExp(blackListExtension.join('|'), 'gi'))) {
 				// make direct copy
 				fs.copyFileSync(filePath, destinationPath);
@@ -103,7 +110,7 @@ const compileAndCopyTemplateFiles = (params, options) => {
 	return failedFile;
 };
 
-module.exports = async (params, outputDir) => {
+module.exports = async (params, outputDir, isVerbose = false) => {
 	const rootTemplatePath = path.resolve(findRoot(), 'template');
 	// create output directory
 	const loader = new Spinner(`Creating package ${params.name}`);
@@ -124,7 +131,6 @@ module.exports = async (params, outputDir) => {
 		if (templateDirectory !== 'default') {
 			relativePath = `${params[templateDirectory]}`;
 		}
-		console.log(relativePath);
 		const templateDirectoryPath = path.resolve(
 			rootTemplatePath,
 			directories[templateDirectory],
@@ -134,11 +140,11 @@ module.exports = async (params, outputDir) => {
 			dot: true,
 		});
 		if (files && files.length > 0) {
-			console.log(path.relative(templateDirectoryPath, files[0]));
 			const failedFile = compileAndCopyTemplateFiles(params, {
 				files,
 				outputDir,
 				templateDirectoryPath,
+				isVerbose,
 			});
 			if (failedFile.length > 0) {
 				isCopyFailed = true;
@@ -158,28 +164,40 @@ module.exports = async (params, outputDir) => {
 			{
 				cwd: outputDir,
 			},
-			false
+			isVerbose
 		);
 		// loader.message('Installing Peer Dependencies');
-		await execShellCommand(`${params.manager} run build`, {
-			cwd: outputDir,
-		});
+		await execShellCommand(
+			`${params.manager} run build`,
+			{
+				cwd: outputDir,
+			},
+			isVerbose
+		);
 		loader.message('Setting up Example...');
 		// Installling Example Dependencies
-		await execShellCommand(`${params.manager} install`, {
-			cwd: path.resolve(outputDir, 'example'),
-		});
+		await execShellCommand(
+			`${params.manager} install`,
+			{
+				cwd: path.resolve(outputDir, 'example'),
+			},
+			isVerbose
+		);
 	} catch (e) {
 		console.error(chalk.red(`Error in Installing Dependencies.\nError: ${e}`));
 	}
 
 	loader.message('Initializing Git Repo...');
 	try {
-		await execShellCommand('git init', { cwd: outputDir });
-		await execShellCommand('git add .', { cwd: outputDir });
-		await execShellCommand(`git commit -m "init:${params.name}@0.0.1"`, {
-			cwd: outputDir,
-		});
+		await execShellCommand('git init', { cwd: outputDir }, false);
+		await execShellCommand('git add .', { cwd: outputDir }, false);
+		await execShellCommand(
+			`git commit -m "init:${params.name}@0.0.1"`,
+			{
+				cwd: outputDir,
+			},
+			false
+		);
 	} catch (e) {
 		console.error(chalk.red(`Error in Initializing Git Repo.\nError: ${e}`));
 	}
