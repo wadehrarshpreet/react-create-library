@@ -2,8 +2,9 @@ import React from 'react';
 import { Demo } from '{{name}}';
 import logo from './logo.svg';
 import './App.css';
+{{#if externalCSS}}
 import '{{name}}/dist/{{name}}.css'
-
+{{/if}}
 const App: React.FC = () => {
 	return (
 		<div className="App">

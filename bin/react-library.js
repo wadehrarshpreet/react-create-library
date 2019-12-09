@@ -41,8 +41,7 @@ const program = new commander.Command(programeName)
 	.option(
 		'--pm <value>',
 		'Package Manager (npm or yarn)',
-		(value) => (PACKAGE_MANAGER.indexOf(value) === -1 ? '' : value),
-		'npm'
+		(value) => (PACKAGE_MANAGER.indexOf(value) === -1 ? '' : value)
 	)
 	.option(
 		'--type <value>',

@@ -10,7 +10,7 @@
 		"commit": "git-cz",
 		"release": "standard-version",
 		"release:tags": "git push --follow-tags origin master",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test:all": "node bin/test.js"
 	},
 	"engines": {
 		"node": ">=8",
@@ -64,7 +64,7 @@
 		}
 	},
 	"lint-staged": {
-		"{bin}/**/*.{js,json} *.js": [
+		"bin/**/*.{js,jsx}": [
 			"pretty-quick --staged",
 			"eslint --fix --quiet --ignore-path .gitignore",
 			"git add"

@@ -2,7 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import { Demo } from '{{name}}';
 import './App.css';
+{{#if externalCSS}}
 import '{{name}}/dist/{{name}}.css'
+{{/if}}
 
 function App() {
 	return (

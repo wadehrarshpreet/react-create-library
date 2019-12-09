@@ -16,14 +16,7 @@ const LICENSE = [
 const PACKAGE_MANAGER = ['npm', 'yarn'];
 const TYPE_SYSTEM = ['default', 'typescript', 'flow'];
 const DOCUMENTATION = ['none', 'docz', 'storybook', 'react-styleguidist'];
-const STYLE = [
-	'inline',
-	'css',
-	'less',
-	'scss',
-	'emotion',
-	'styled-component',
-];
+const STYLE = ['inline', 'css', 'less', 'scss', 'emotion', 'styled-component'];
 
 module.exports = async (defaultAnswers) => {
 	const queries = [

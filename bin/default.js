@@ -46,8 +46,10 @@ module.exports = async (program) => {
 	} catch (err) {}
 
 	try {
-		if (which.sync('yarn', { nothrow: true })) {
-			defaults.manager = 'yarn';
+		if (!program.pm) {
+			if (which.sync('yarn', { nothrow: true })) {
+				defaults.manager = 'yarn';
+			}
 		}
 		config.set('manager', defaults.manager);
 	} catch (managerError) {}

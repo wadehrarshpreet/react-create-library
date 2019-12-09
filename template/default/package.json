@@ -26,7 +26,7 @@
 		"test": "jest",
 		"test:dev": "jest --watch",
 		"lint": {{#ifCond typeSystem '===' 'typescript'}}"eslint src/**/*.{js,tsx,ts,jsx} --fix"{{else}}"eslint src/**/*.{js,jsx} --fix"{{/ifCond}},
-		"stylelint": "./node_modules/.bin/stylelint src/**/*.(ts|tsx|jsx|js|css|sass|less) --fix",
+		"stylelint": "stylelint src/**/*.{ts,tsx,jsx,js,css,scss,less} --fix",
 		"commit": "git-cz",
 		"release": "standard-version",
 		"release:tags": "git push --follow-tags origin master",

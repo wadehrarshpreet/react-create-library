@@ -15,11 +15,14 @@ module.exports = async (program, packageName) => {
 	if (typeof packageName === 'undefined') {
 		console.error('Please specify the package name:');
 		console.log(
-			`${chalk.cyan(program.name())} ${chalk.green('<package-name>')}\n`
+			`${chalk.cyan(program.name())} ${chalk.green('<package-name>')} [options]\n`
 		);
 		console.log('For example:');
 		console.log(
 			`${chalk.cyan(program.name())} ${chalk.green('my-date-picker')}`
+		);
+		console.log(
+			`${chalk.cyan(program.name())} ${chalk.green('my-date-picker')} --pm yarn`
 		);
 		console.log(
 			`\n Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
