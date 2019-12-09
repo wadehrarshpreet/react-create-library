@@ -9,6 +9,7 @@ Create React Library with no build configuration.
 ```sh
 npx react-create-library my-library
 ```
+![react-create-library](assets/demo.svg)
 
 ## Features
 
@@ -28,7 +29,7 @@ npx react-create-library my-library
 ### CLI Options
 
 ```
-Usage: react-lib <package-name> [Options]
+Usage: react-create-library <package-name> [Options]
 
 Options:
   -V, --version          output the version number
