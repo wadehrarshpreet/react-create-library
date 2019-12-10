@@ -192,6 +192,40 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 	loader.message('Initializing Git Repo...');
 	try {
 		await execShellCommand('git init', { cwd: outputDir }, false);
+		const gitIgnorePath = path.join(outputDir, '.gitignore');
+		fs.writeFileSync(
+			gitIgnorePath,
+			`# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+
+# builds
+build
+dist
+.rpt2_cache
+
+#docs
+.docz
+docs
+
+
+# misc
+.editorconfig
+.gitattributes
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+`,
+			'utf8'
+		);
 		await execShellCommand('git add .', { cwd: outputDir }, false);
 		await execShellCommand(
 			`git commit -m "init:${params.name}@0.0.1"`,
