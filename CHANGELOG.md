@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.2...v1.0.3) (2019-12-10)
+
+
+### Bug Fixes
+
+* gitignore not generated fix ([ad20d3f](https://github.com/wadehrarshpreet/react-create-library/commit/ad20d3f79fa8297d4fddfd179d7130c5f77c24e1))
+
 ### [1.0.2](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.1...v1.0.2) (2019-12-10)
 
 
