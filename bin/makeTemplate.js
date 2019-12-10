@@ -77,9 +77,11 @@ const compileAndCopyTemplateFiles = (params, options) => {
 		if (
 			!destinationPathDir.includes('/example/src') &&
 			fileName.includes('.css') &&
-			params.externalCSS &&
 			params.style !== 'css'
 		) {
+			if (params.externalCSS !== true) {
+				return;
+			}
 			fileName = fileName.replace('css', params.style);
 		}
 		destinationPath = destinationPath.replace(

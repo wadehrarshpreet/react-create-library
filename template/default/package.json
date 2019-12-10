@@ -1,11 +1,13 @@
 {
 	"name": "{{name}}",
+	{{#if author}}
 	"homepage": "http://{{author}}.github.io/{{name}}",
+	{{/if}}
 	"version": "0.0.1",
 	"description": "",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/{{author}}/{{name}}"
+		"url": {{#if repo}}"https://github.com/{{repo}}"{{else}}"https://github.com/{{author}}/{{name}}"{{/if}}
 	},
 	"main": "dist/cjs/index",
 	"module": "dist/es/index",

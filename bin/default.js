@@ -17,6 +17,7 @@ module.exports = async (program) => {
 		license: program.license || config.get('license', 'MIT'),
 		manager: program.pm || config.get('manager', 'npm'),
 		style: program.style || config.get('style', 'inline'),
+		repo: '',
 		typeSystem:
 			program.type === 'none'
 				? 'default'
