@@ -3,7 +3,7 @@
 	"version": "1.0.3",
 	"description": "CLI tools to generate boilerplate to create component based library",
 	"main": "index.js",
-	"homepage": "https://wadehrarshpreet.github.io/react-create-library",
+	"homepage": "https://github.com/wadehrarshpreet/react-create-library",
 	"bin": {
 		"react-lib": "index.js",
 		"react-create-library": "index.js"

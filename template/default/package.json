@@ -1,14 +1,16 @@
 {
 	"name": "{{name}}",
-	{{#if author}}
+	{{#ifCond author '!==' ''}}
 	"homepage": "http://{{author}}.github.io/{{name}}",
-	{{/if}}
+	{{/ifCond}}
 	"version": "0.0.1",
-	"description": "",
+	"description": {{description}},
+	{{#ifCond author '!==' ''}}
 	"repository": {
 		"type": "git",
-		"url": {{#if repo}}"https://github.com/{{repo}}"{{else}}"https://github.com/{{author}}/{{name}}"{{/if}}
+		"url": {{#ifCond repo '!==' ''}}"https://github.com/{{repo}}"{{else}}"https://github.com/{{author}}/{{name}}"{{/ifCond}}
 	},
+	{{/ifCond}}
 	"main": "dist/cjs/index",
 	"module": "dist/es/index",
 	{{#if externalCSS}}
