@@ -1,6 +1,6 @@
 {
 	"name": "react-create-library",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "CLI tools to generate boilerplate to create component based library",
 	"main": "index.js",
 	"homepage": "https://github.com/wadehrarshpreet/react-create-library",
