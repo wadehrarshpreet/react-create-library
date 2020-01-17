@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.6...v1.0.7) (2020-01-17)
+
+
+### Bug Fixes
+
+* dependencies fix ([439ca88](https://github.com/wadehrarshpreet/react-create-library/commit/439ca88c75eb3f58fcdc595161841428c1c73d9e))
+* fix build system for window OS ([24dcc44](https://github.com/wadehrarshpreet/react-create-library/commit/24dcc444bb7eb42cf14d1d9bfd2f4a7d1c94b8d7))
+
 ### [1.0.6](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.5...v1.0.6) (2020-01-17)
 
 
