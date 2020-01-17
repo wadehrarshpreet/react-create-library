@@ -3,11 +3,24 @@ const fs = require('fs');
 const Handlebars = require('handlebars');
 const mkDir = require('make-dir');
 const chalk = require('chalk');
-const globby = require('globby');
+const commandExistsSync = require('command-exists').sync;
 const { Spinner, execShellCommand } = require('./utils');
 
 // prevent files to pass through handlebars compile
 const blackListExtension = ['.png', '.jpg', '.gif', '.svg', '.ico', '.pdf'];
+
+const walkSync = function(dir, filelist) {
+	const files = fs.readdirSync(dir);
+	filelist = filelist || [];
+	files.forEach(function(file) {
+		if (fs.statSync(path.join(dir, file)).isDirectory()) {
+			filelist = walkSync(path.join(dir, file), filelist);
+		} else {
+			filelist.push(path.join(dir, file));
+		}
+	});
+	return filelist;
+};
 
 Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
 	if (v1 === undefined || v2 === undefined) {
@@ -128,7 +141,7 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 	// get all Files to generate template
 	loader.message('Setting up your package...');
 	let isCopyFailed = false;
-	Object.keys(directories).forEach(async (templateDirectory) => {
+	Object.keys(directories).forEach((templateDirectory) => {
 		let relativePath = '';
 		if (templateDirectory !== 'default') {
 			relativePath = `${params[templateDirectory]}`;
@@ -138,9 +151,7 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 			directories[templateDirectory],
 			relativePath
 		);
-		const files = await globby(templateDirectoryPath, {
-			dot: true,
-		});
+		const files = walkSync(templateDirectoryPath);
 		if (files && files.length > 0) {
 			const failedFile = compileAndCopyTemplateFiles(params, {
 				files,
@@ -159,10 +170,15 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 	loader.stop();
 	loader.message('Installing Dependencies...');
 	loader.start();
+	let manager = params.manager;
+	const isWin = process.platform === 'win32';
+	if (isWin) {
+		manager = `${manager}.cmd`;
+	}
 	// Installing Package Dependencies
 	try {
 		await execShellCommand(
-			`${params.manager} install`,
+			`${manager} install`,
 			{
 				cwd: outputDir,
 			},
@@ -170,7 +186,7 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 		);
 		// loader.message('Installing Peer Dependencies');
 		await execShellCommand(
-			`${params.manager} run build`,
+			`${manager} run build`,
 			{
 				cwd: outputDir,
 			},
@@ -179,7 +195,7 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 		loader.message('Setting up Example...');
 		// Installling Example Dependencies
 		await execShellCommand(
-			`${params.manager} install`,
+			`${manager} install`,
 			{
 				cwd: path.resolve(outputDir, 'example'),
 			},
@@ -189,13 +205,14 @@ module.exports = async (params, outputDir, isVerbose = false) => {
 		console.error(chalk.red(`Error in Installing Dependencies.\nError: ${e}`));
 	}
 
-	loader.message('Initializing Git Repo...');
-	try {
-		await execShellCommand('git init', { cwd: outputDir }, false);
-		const gitIgnorePath = path.join(outputDir, '.gitignore');
-		fs.writeFileSync(
-			gitIgnorePath,
-			`# See https://help.github.com/ignore-files/ for more about ignoring files.
+	if (commandExistsSync('git')) {
+		loader.message('Initializing Git Repo...');
+		try {
+			await execShellCommand('git init', { cwd: outputDir }, false);
+			const gitIgnorePath = path.join(outputDir, '.gitignore');
+			fs.writeFileSync(
+				gitIgnorePath,
+				`# See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
 node_modules
@@ -224,18 +241,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 `,
-			'utf8'
-		);
-		await execShellCommand('git add .', { cwd: outputDir }, false);
-		await execShellCommand(
-			`git commit -m "init:${params.name}@0.0.1"`,
-			{
-				cwd: outputDir,
-			},
-			false
-		);
-	} catch (e) {
-		console.error(chalk.red(`Error in Initializing Git Repo.\nError: ${e}`));
+				'utf8'
+			);
+			await execShellCommand('git add .', { cwd: outputDir }, false);
+			await execShellCommand(
+				`git commit -m "init:${params.name}@0.0.1"`,
+				{
+					cwd: outputDir,
+				},
+				false
+			);
+		} catch (e) {
+			console.error(chalk.red(`Error in Initializing Git Repo.\nError: ${e}`));
+		}
 	}
 	loader.stop();
 	return true;
