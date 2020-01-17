@@ -4,11 +4,6 @@
 
 Create React Library with no build configuration.
 
-## Usage
-
-```sh
-npx react-create-library my-library
-```
 
 ![react-create-library](https://raw.githubusercontent.com/wadehrarshpreet/react-create-library/master/assets/demo.svg?sanitize=true)
 
@@ -26,6 +21,30 @@ npx react-create-library my-library
 - [Babel](https://babeljs.io/) for transpiling
 - [Jest](https://facebook.github.io/jest/) for testing
 - Working example setup using [create-react-app](https://github.com/facebook/create-react-app)
+
+
+## Install globally
+
+This package requires node >= 8.
+
+```sh
+npm install -g react-create-library
+```
+
+## Usage
+ 
+```sh
+react-create-library my-library
+```
+
+## Using npx
+
+```sh
+npx react-create-library my-library
+```
+
+Interactive CLI, answer few questions and choose modules required for development. 
+
 
 ### CLI Options
 

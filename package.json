@@ -22,7 +22,13 @@
 		"node": ">=8",
 		"npm": ">=5"
 	},
-	"keywords": [],
+	"keywords": [
+		"react",
+		"library",
+		"boilerplate",
+		"react-library-boilerplate",
+		"react-library"
+	],
 	"author": "Arshpreet Wadehra <me@wadehrarshpreet.com>",
 	"license": "MIT",
 	"dependencies": {
