@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.6](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.5...v1.0.6) (2020-01-17)
+
+
+### Bug Fixes
+
+* remove emotion as peerDep & minor typo fix ([85cb7c1](https://github.com/wadehrarshpreet/react-create-library/commit/85cb7c1d4740cec5e420dda7baf49e41755b1f81))
+
 ### [1.0.5](https://github.com/wadehrarshpreet/react-create-library/compare/v1.0.4...v1.0.5) (2020-01-17)
 
 
