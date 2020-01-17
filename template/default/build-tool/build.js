@@ -15,12 +15,17 @@ const { fromRoot, extensions } = require('./utils');
 const here = (p) => path.join(__dirname, p);
 const hereRelative = (p) => here(p).replace(process.cwd(), '.');
 const parsedArgs = yargsParser(process.argv.slice(2));
+const isWindow = process.platform === 'win32';
 
 const resolveBin = (
 	modName,
 	{ executable = modName, cwd = process.cwd() } = {}
 ) => {
 	let pathFromWhich;
+	if (isWindow) {
+		return path.join(cwd, 'node_modules', '.bin', executable);
+	}
+
 	try {
 		pathFromWhich = fs.realpathSync(which.sync(executable));
 	} catch (_error) {
@@ -93,15 +98,23 @@ function getRollupCommands() {
 		const sourceMap = formatName === 'umd' ? '--sourcemap' : '';
 		const buildMinify = Boolean(minify);
 		const env = [
-			`BUILD_FORMAT=${formatName}`,
-			`NODE_ENV=${nodeEnv}`,
-			buildMinify ? `BUILD_MINIFY=${buildMinify}` : null,
-			sizeSnapshot ? `BUILD_SIZE_SNAPSHOT=${sizeSnapshot}` : null,
-			buildInput ? `BUILD_INPUT='${buildInput}'` : null,
+			`${isWindow ? 'set ' : ''}BUILD_FORMAT=${formatName}`,
+			`${isWindow ? 'set ' : ''}NODE_ENV=${nodeEnv}`,
+			buildMinify
+				? `${isWindow ? 'set ' : ''}BUILD_MINIFY=${buildMinify}`
+				: null,
+			sizeSnapshot
+				? `${isWindow ? 'set ' : ''}BUILD_SIZE_SNAPSHOT=${sizeSnapshot}`
+				: null,
+			buildInput
+				? `${isWindow ? 'set ' : ''}BUILD_INPUT='${buildInput}'`
+				: null,
 		]
 			.filter(Boolean)
+			.join(isWindow?'&& ': ' ');
+		cmds[format] = [`${env}${isWindow?' && ':''}`, ...rollupCommand, sourceMap]
+			.filter(Boolean)
 			.join(' ');
-		cmds[format] = [env, ...rollupCommand, sourceMap].filter(Boolean).join(' ');
 		return cmds;
 	}, {});
 }
@@ -130,8 +143,8 @@ function getBabelCommands() {
 			`--presets ${babelrc}`,
 			`--out-dir dist/${name}`,
 			{{#ifCond typeSystem '===' 'typescript'}}
-				'--ignore src/**/*.test.ts',
-				'--ignore src/**/*.test.tsx',
+			'--ignore src/**/*.test.ts',
+			'--ignore src/**/*.test.tsx',
 			{{/ifCond}}
 			'--ignore src/**/*.test.js',
 			'--ignore src/**/*.test.jsx',
@@ -157,6 +170,7 @@ function generateTypesCommand() {
 {{/ifCond}}
 
 rimraf.sync(fromRoot('dist'));
+
 const scripts = getConcurrentlyArgs({
 	{{#ifCond typeSystem '===' 'typescript'}}
 	...generateTypesCommand(),
@@ -164,8 +178,10 @@ const scripts = getConcurrentlyArgs({
 	...getRollupCommands(),
 	...getBabelCommands(),
 });
+
 const result = spawn.sync(resolveBin('concurrently'), scripts, {
 	stdio: 'inherit',
+	cwd: process.cwd(),
 });
 
 process.exit(result.status);
