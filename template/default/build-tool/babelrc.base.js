@@ -30,7 +30,7 @@ module.exports = ({ pure, withModules, isUMD = false }) => ({
 		['@babel/proposal-class-properties', { loose: true }],
 		'@babel/transform-runtime',
 		'minify-dead-code-elimination',
-		{{#ifCond stype '===' 'emotion'}}'emotion',{{/ifCond}}{{#ifCond style '===' 'styled-component'}}'babel-plugin-styled-components',{{/ifCond}}
+		{{#ifCond style '===' 'emotion'}}'emotion',{{/ifCond}}{{#ifCond style '===' 'styled-component'}}'babel-plugin-styled-components',{{/ifCond}}
 		{{#if externalCSS}}
 		...(isUMD
 			? []
