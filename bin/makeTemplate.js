@@ -9,7 +9,10 @@ const { Spinner, execShellCommand } = require('./utils');
 // prevent files to pass through handlebars compile
 const blackListExtension = ['.png', '.jpg', '.gif', '.svg', '.ico', '.pdf'];
 
-const walkSync = function(dir, filelist) {
+const walkSync = function(dir, filelist = []) {
+	if (!fs.existsSync(dir)) {
+		return filelist;
+	}
 	const files = fs.readdirSync(dir);
 	filelist = filelist || [];
 	files.forEach(function(file) {
