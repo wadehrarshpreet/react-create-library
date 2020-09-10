@@ -37,7 +37,10 @@ const externalPattern = new RegExp(`^(${external.join('|')})($|/)`);
 const externalPredicate =
 	external.length === 0 ? () => false : (id) => externalPattern.test(id);
 
-const filename = [pkg.name, `.${format}`, minify ? '.min' : null, '.js']
+// check org package remove org name from build name
+const packageName = pkg.name.split('/').pop();
+
+const filename = [packageName, `.${format}`, minify ? '.min' : null, '.js']
 	.filter(Boolean)
 	.join('');
 
@@ -66,7 +69,7 @@ if (input.length > 1) {
 }
 const output = [
 	{
-		name: pkg.name,
+		name: pkg.name.replace(/-/g, '_'),
 		file: path.join('dist', filename),
 		format: esm ? 'es' : format,
 		exports: esm ? 'named' : 'auto',
